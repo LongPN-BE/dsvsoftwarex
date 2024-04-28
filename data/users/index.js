@@ -8,7 +8,7 @@ const getAllEmployees = async () => {
     try {
         const pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('users');
-        const userList = await pool.request().query(sqlQueries.ViewEmployees);
+        const userList = await pool.request().query(sqlQueries.employees);
         console.log(userList)
         return "Success : " + userList.recordset;
     } catch (err) {
@@ -20,7 +20,7 @@ const getAllCustomers = async () => {
     try {
         const pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('users');
-        const userList = await pool.request().query(sqlQueries.ViewCustomers);
+        const userList = await pool.request().query(sqlQueries.customers);
         console.log(userList)
         return "Success : " + userList.recordset;
     } catch (err) {
@@ -32,7 +32,7 @@ const getAllBrokers = async () => {
     try {
         const pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('users');
-        const userList = await pool.request().query(sqlQueries.ViewBrokers);
+        const userList = await pool.request().query(sqlQueries.brokers);
         console.log(userList)
         return "Success : " + userList.recordset;
     } catch (err) {

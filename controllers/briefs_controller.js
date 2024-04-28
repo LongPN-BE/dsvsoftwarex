@@ -40,11 +40,30 @@ const getAllAppraisalPlan = async (req, res) => {
         res.status(500).json({ error: err });
     }
 };
-
+const getAllAppraisalDocumentDetail = async (req, res) => {
+    try {
+        const appraisalDocumentDetail = await briefData.getAllAppraisalDocumentDetail();
+        res.status(200).json(appraisalDocumentDetail);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
+const getAllAppraisalPlanDetail = async (req, res) => {
+    try {
+        const appraisalPlansDetail = await briefData.getAllAppraisalPlanDetail();
+        res.status(200).json(appraisalPlansDetail);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
 
 module.exports = {
     getBriefPoint,
     getAllBrief,
     getAllAsset,
-    getAllAppraisalPlan
+    getAllAppraisalPlan,
+    getAllAppraisalDocumentDetail,
+    getAllAppraisalPlanDetail
 };
