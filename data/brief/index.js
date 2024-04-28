@@ -65,7 +65,7 @@ const getAllAppraisalDocumentDetail = async () => {
         const pool = await sql.connect(config.sql);
         const sqlQueries = await utils.loadSqlQueries('brief');
         const appraisalDocumentDetail = await pool.request().query(sqlQueries.appraisal_documents_detail);
-        console.log(appraisalDocumentDetail);
+        console.log(68, appraisalDocumentDetail);
         return "Success : " + appraisalDocumentDetail.recordset;
     } catch (err) {
         console.log("Error: ", err);
