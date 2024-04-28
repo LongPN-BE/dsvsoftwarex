@@ -1,0 +1,1 @@
+select * from View_Xem_Nguoi_Mo_Gioi;

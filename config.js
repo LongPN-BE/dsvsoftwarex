@@ -18,7 +18,7 @@ module.exports ={
     url: HOST_URL,
     sql: {
         server: SQL_SERVER || 'localhost',
-        user: SQL_USER || '',
+        user: SQL_USER || 'sa',
         password: SQL_PASSWORD || '123456',
         database: SQL_DATABASE || 'DSGAppraisalSoftwareX',
         options:{

@@ -2,10 +2,30 @@
 
 const userData = require('../data/users');
 
-const getAllUser = async (req, res) => {
+const getAllEmployees = async (req, res) => {
     try {
-        const allUsers = await userData.getAll();
-        res.status(200).json(allUsers);
+        const employees = await userData.getAllEmployees();
+        res.status(200).json(employees);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
+
+const getAllCustomers = async (req, res) => {
+    try {
+        const customers = await userData.getAllCustomers();
+        res.status(200).json(customers);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err });
+    }
+};
+
+const getAllBrokers = async (req, res) => {
+    try {
+        const brokers = await userData.getAllBrokers();
+        res.status(200).json(brokers);
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: err });
@@ -13,5 +33,7 @@ const getAllUser = async (req, res) => {
 };
 
 module.exports = {
-    getAllUser
+    getAllEmployees,
+    getAllCustomers,
+    getAllBrokers
 };
