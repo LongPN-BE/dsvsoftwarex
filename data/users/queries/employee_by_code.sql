@@ -1,0 +1,24 @@
+SELECT
+    [ID],
+    [employees_code],
+    [employees_name],
+    [document_type],
+    [document_number],
+    [document_issue_date],
+    [email],
+    [adress],
+    [gender],
+    [telephone],
+    [date_of_birth],
+    [position_code],
+    [employee_image],
+    [is_active],
+    [is_working],
+    [is_follow],
+    [create_date],
+    [start_work_date],
+    [layoff_date]
+FROM
+    [DSGAppraisalSoftwareX].[dbo].[Employees]
+WHERE
+    [employees_code] = @input_employee_code;

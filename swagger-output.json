@@ -5,8 +5,8 @@
     "title": "DSV Software API",
     "description": "How does human communication happen? People can express thoughts, needs, and ideas through language (written and spoken), gestures, or facial expressions, right? At the same time, our interaction with computers, apps, and websites requires user interface (UI) components – a screen with a menu and graphical elements, a keyboard, and a mouse. Software or its elements, on the other hand, don’t need a graphical user interface to talk to each other. To communicate and exchange data and functionalities, programs use machine-readable interfaces called APIs. If you ever read tech magazines or blogs, you’ve probably seen the abbreviation API. It sounds solid, but what does it stand for? API stands for Application Programming Interface. This post will explain what APIs are, how they work, and why you should care about them in the first place."
   },
-  "host": "localhost:3000",
-  "basePath": "/api",
+  "host": "dsvdemo.onrender.com/api",
+  "basePath": "/",
   "schemes": [
     "http",
     "https"
@@ -17,10 +17,180 @@
   "produces": [
     "application/json"
   ],
+  "server": [
+    {
+      "url": "https://dsvdemo.onrender.com/api",
+      "description": "Server for development environment"
+    },
+    {
+      "url": "https://localhost:8081/api",
+      "description": "Server for local environment"
+    }
+  ],
+  "tag": [
+    {
+      "name": "Auth",
+      "description": "Liên quan đến các vấn đề của tài khoản cá nhân hiện đang thực hiện."
+    },
+    {
+      "name": "User",
+      "description": "Liên quan đến cái vai trò của tài khoản, con người,.."
+    },
+    {
+      "name": "Appraisal",
+      "description": "Các thông tin tổng hợp về việc thẩm định."
+    },
+    {
+      "name": "Priority Level",
+      "description": "Liên quan đến các vấn đề quản lý của độ ưu tiên."
+    },
+    {
+      "name": "Asset",
+      "description": "Dữ liệu về các tài sản đang được lưu trữ thông tin tại hệ thống."
+    },
+    {
+      "name": "Brief",
+      "description": "Các thông tin về hồ sơ, bao gồm các mục tiêu chí tính điểm."
+    },
+    {
+      "name": "File",
+      "description": "Các thông tin dạng tệp tài liệu."
+    }
+  ],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Đăng nhập.",
+        "description": "Đăng nhập bằng tài khoản hiện có tại hệ thống.",
+        "operationId": "checkDocumentID",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nhập username vs password được rồi.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/user/employees": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách nhân viên",
+        "description": "Xem danh sách nhân viên có tại hệ thống có thể dùng cho chức năng tìm theo mã nhân viên.",
+        "operationId": "findAllEmployees",
+        "parameters": [
+          {
+            "name": "employee_code",
+            "in": "query",
+            "description": "Mã của nhân viên, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/files": {
+      "get": {
+        "tags": [
+          "File"
+        ],
+        "summary": "Danh sách tệp tài liệu",
+        "description": "Xem danh sách tệp tài liệu có tại hệ thống có thể dùng cho chức năng tìm theo mã tài liệu.",
+        "operationId": "findAllFile",
+        "parameters": [
+          {
+            "name": "file_code",
+            "in": "query",
+            "description": "Mã của tài liệu, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/upload": {
+      "post": {
+        "tags": [
+          "File"
+        ],
+        "summary": "Thêm mới tệp tài liệu",
+        "description": "Thêm mới tệp tài liệu tại hệ thống .",
+        "consumes":[
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "formData",
+            "description": "File.",
+            "type": "file"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -33,7 +203,33 @@
     },
     "/user/customers": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách khách hàng",
+        "description": "Xem danh sách khách hàng có tại hệ thống có thể dùng cho chức năng tìm theo mã khách hàng.",
+        "parameters": [
+          {
+            "name": "customer_code",
+            "in": "query",
+            "description": "Mã của khách hàng, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -46,6 +242,49 @@
     },
     "/user/brokers": {
       "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách người môi giới",
+        "description": "Xem danh sách người môi giới có tại hệ thống có thể dùng cho chức năng tìm theo mã người môi giới.",
+        "parameters": [
+          {
+            "name": "broker_code",
+            "in": "query",
+            "description": "Mã của người môi giới, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/brief/briefs_point": {
+      "get": {
+        "tags": [
+          "Brief"
+        ],
+        "summary": "Cái này chưa rõ chức năng sử dụng. Hiện tại không dùng tới.",
         "description": "",
         "responses": {
           "200": {
@@ -57,22 +296,35 @@
         }
       }
     },
-    "/briefs_point": {
+    "/brief/briefs": {
       "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
+        "tags": [
+          "Brief"
+        ],
+        "summary": "Danh sách hồ sơ",
+        "description": "Xem danh sách hồ sơ có tại hệ thống có thể dùng cho chức năng tìm theo mã hồ sơ.",
+        "parameters": [
+          {
+            "name": "brief_code",
+            "in": "query",
+            "description": "Mã của hồ sơ, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
           },
-          "500": {
-            "description": "Internal Server Error"
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
           }
-        }
-      }
-    },
-    "/briefs": {
-      "get": {
-        "description": "",
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -85,7 +337,72 @@
     },
     "/assets": {
       "get": {
-        "description": "",
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Danh sách tài sản",
+        "description": "Xem danh sách tài sản có tại hệ thống có thể dùng cho chức năng tìm theo mã tài sản.",
+        "parameters": [
+          {
+            "name": "asset_code",
+            "in": "query",
+            "description": "Mã của tài sản, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/priority_levels": {
+      "get": {
+        "tags": [
+          "Priority Level"
+        ],
+        "summary": "Danh sách độ ưu tiên",
+        "description": "Xem danh sách độ ưu tiên có tại hệ thống có thể dùng cho chức năng tìm theo mã độ ưu tiên.",
+        "parameters": [
+          {
+            "name": "priority_level_code",
+            "in": "query",
+            "description": "Mã của độ ưu tiên, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -98,7 +415,33 @@
     },
     "/appraisal_plans": {
       "get": {
-        "description": "",
+        "tags": [
+          "Appraisal"
+        ],
+        "summary": "Danh sách kế hoạch thẩm định",
+        "description": "Xem danh sách kế hoạch thẩm định có tại hệ thống có thể dùng cho chức năng tìm theo mã kế hoạch.",
+        "parameters": [
+          {
+            "name": "appraisal_plan_code",
+            "in": "query",
+            "description": "Mã của kế hoach, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -111,7 +454,33 @@
     },
     "/appraisal_plans_detail": {
       "get": {
-        "description": "",
+        "tags": [
+          "Appraisal"
+        ],
+        "summary": "Danh sách kế hoạch thẩm định chi tiết",
+        "description": "Xem danh sách kế hoạch thẩm định chi tiết có tại hệ thống có thể dùng cho chức năng tìm theo mã chi tiết kế hoạch.",
+        "parameters": [
+          {
+            "name": "appraisal_plan_detail_code",
+            "in": "query",
+            "description": "Mã của chi tiết kế hoạch, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -122,9 +491,35 @@
         }
       }
     },
-    "/appraisal_documents_etail": {
+    "/appraisal_documents_detail": {
       "get": {
-        "description": "",
+        "tags": [
+          "Appraisal"
+        ],
+        "summary": "Danh sách chi tiết hồ sơ thẩm định",
+        "description": "Xem danh sách chi tiết hồ sơ thẩm định có tại hệ thống có thể dùng cho chức năng tìm theo mã hồ sơ thẩm định chi tiết.",
+        "parameters": [
+          {
+            "name": "appraisal_documents_detail_code",
+            "in": "query",
+            "description": "Mã của hồ sơ thẩm định chi tiết, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -137,7 +532,33 @@
     },
     "/appraisal_plan_types": {
       "get": {
-        "description": "",
+        "tags": [
+          "Appraisal"
+        ],
+        "summary": "Danh sách các loại kế hoạch thẩm định",
+        "description": "Xem danh sách các loại kế hoạch thẩm định có tại hệ thống có thể dùng cho chức năng tìm theo mã các loại kế hoạch thẩm định.",
+        "parameters": [
+          {
+            "name": "appraisal_plan_type_code",
+            "in": "query",
+            "description": "Mã của loại kế hoạch thẩm định, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -150,7 +571,33 @@
     },
     "/user/customer_types": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách các loại khách hàng",
+        "description": "Xem danh sách các loại khách hàng có tại hệ thống có thể dùng cho chức năng tìm theo mã các loại khách hàng.",
+        "parameters": [
+          {
+            "name": "customer_type_code",
+            "in": "query",
+            "description": "Mã của loại khách hàng, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -163,7 +610,33 @@
     },
     "/asset_types": {
       "get": {
-        "description": "",
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Danh sách các loại tài sản",
+        "description": "Xem danh sách các loại tài sản có tại hệ thống có thể dùng cho chức năng tìm theo mã các loại tài sản.",
+        "parameters": [
+          {
+            "name": "asset_type_code",
+            "in": "query",
+            "description": "Mã của loại tài sản, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -176,7 +649,33 @@
     },
     "/user/vocatives": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách các loại xưng hô",
+        "description": "Xem danh sách các loại xưng hô có tại hệ thống có thể dùng cho chức năng tìm theo mã các loại xưng hô.",
+        "parameters": [
+          {
+            "name": "vocative_code",
+            "in": "query",
+            "description": "Mã của loại xưng hô, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -189,7 +688,33 @@
     },
     "/user/employee_positions": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách các vị trí nhân viên",
+        "description": "Xem danh sách các vị trí nhân viên có tại hệ thống có thể dùng cho chức năng tìm theo mã các vị trí nhân viên.",
+        "parameters": [
+          {
+            "name": "employee_position_code",
+            "in": "query",
+            "description": "Mã của vị trí nhân viên, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -197,6 +722,39 @@
           "500": {
             "description": "Internal Server Error"
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "passWord": {
+          "type": "string"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       }
     }

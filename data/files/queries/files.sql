@@ -1,0 +1,10 @@
+SELECT
+    [id],
+    [file_name],
+    [file_url],
+    [is_single],
+    [is_checked],
+    [is_show],
+    [date_create]
+FROM
+    [DSGAppraisalSoftwareX].[dbo].[fileSample];

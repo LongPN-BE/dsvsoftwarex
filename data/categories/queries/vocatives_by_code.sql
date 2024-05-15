@@ -6,4 +6,6 @@ SELECT
     [is_follow],
     [create_date]
 FROM
-    [DSGAppraisalSoftwareX].[dbo].[Vocative];
+    [DSGAppraisalSoftwareX].[dbo].[Vocative]
+WHERE
+    [vocative_code] = @input;

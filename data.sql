@@ -1583,3 +1583,15 @@ from
 							 dbo.Tieu_chi_tin_dung_noi_bo_con.diem_ty_trong, dbo.cac_tieu_chi_tin_dung_noi_bo_cha.diem_ty_trong
 ) as sub
 group by sub.[Mã hồ sơ],sub.[Tên khách hàng] 
+
+
+CREATE TABLE fileSample(
+	id int identity(1,1) primary key,
+	file_name nvarchar(255) not null unique,
+	file_url nvarchar(max) not null,
+	is_single bit not null default 1,
+	is_checked bit not null default 1,
+	is_show bit not null default 1,
+	date_create DATETIME not null
+);
+

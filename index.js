@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// API routes ==> https://localhost:8081/api/{domain api}
+// API routes ==> https://localhost:8081/api/{domain api} ||  http://{host}/api/{domain api}
 app.use("/api", cors(corsOptions), userRoutes.router);
 
 const swaggerUi = require("swagger-ui-express");
@@ -24,8 +24,6 @@ const swaggerDocument = require("./swagger-output.json");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// app.listen(config.port);
-
 app.listen(config.port, () => {
-  console.log("Server is running on port " + config.port);
+  console.log("🚀Server is running on port " + config.port + "... ");
 });
