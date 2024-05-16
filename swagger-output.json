@@ -55,6 +55,10 @@
     {
       "name": "File",
       "description": "Các thông tin dạng tệp tài liệu."
+    },
+    {
+      "name": "Criteria",
+      "description": "Các thông tin tiêu chí tín dụng."
     }
   ],
   "paths": {
@@ -173,14 +177,14 @@
         }
       }
     },
-    "/upload": {
+    "/files/upload": {
       "post": {
         "tags": [
           "File"
         ],
         "summary": "Thêm mới tệp tài liệu",
         "description": "Thêm mới tệp tài liệu tại hệ thống .",
-        "consumes":[
+        "consumes": [
           "multipart/form-data"
         ],
         "parameters": [
@@ -252,6 +256,117 @@
             "name": "broker_code",
             "in": "query",
             "description": "Mã của người môi giới, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/criteria/internal_credit_criterias": {
+      "get": {
+        "tags": [
+          "Criteria"
+        ],
+        "summary": "Danh sách tiêu chí tín dụng nội bộ",
+        "description": "Xem danh sách tiêu chí tín dụng nội bộ có tại hệ thống có thể dùng cho chức năng tìm theo mã tiêu chí tín dụng nội bộ.",
+        "parameters": [
+          {
+            "name": "internal_credit_criteria_code",
+            "in": "query",
+            "description": "Mã của tiêu chí tín dụng nội bộ, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/criteria/sub_internal_credit_criterias": {
+      "get": {
+        "tags": [
+          "Criteria"
+        ],
+        "summary": "Danh sách tiêu chí tín dụng nội bộ con",
+        "description": "Xem danh sách tiêu chí tín dụng nội bộ con có tại hệ thống có thể dùng cho chức năng tìm theo mã tiêu chí tín dụng nội bộ con.",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/criteria/root_internal_credit_criterias": {
+      "get": {
+        "tags": [
+          "Criteria"
+        ],
+        "summary": "Danh sách tiêu chí tín dụng nội bộ cha",
+        "description": "Xem danh sách tiêu chí tín dụng nội bộ cha có tại hệ thống có thể dùng cho chức năng tìm theo mã tiêu chí tín dụng nội bộ cha.",
+        "parameters": [
+          {
+            "name": "root_internal_credit_criteria_code",
+            "in": "query",
+            "description": "Mã của tiêu chí tín dụng nội bộ cha, có thể bỏ trống sẽ là lấy tất cả.",
             "type": "string"
           },
           {

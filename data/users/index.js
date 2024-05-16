@@ -95,6 +95,34 @@ const getBrokersByCode = async (input) => {
   }
 };
 
+const onCalculatePersionPoint = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("users");
+    const userList = await pool
+      .request()
+      .input("input_hocvan", input.input_hocvan)
+      .input("input_sohuutaisan", input.input_sohuutaisan)
+      .input("input_thunhapchinh", input.input_thunhapchinh)
+      .input("input_chitieuhangthang", input.input_chitieuhangthang)
+      .input("input_nghenghiep", input.input_nghenghiep)
+      .input("input_thoigianlamviec", input.input_thoigianlamviec)
+      .input("input_thunhapkhac", input.input_thunhapkhac)
+      .input("input_thunhapnguoidongtrachnhiem", input.input_thunhapnguoidongtrachnhiem)
+      .input("input_lienketxahoi", input.input_lienketxahoi)
+      .input("input_thoigiansinhsong", input.input_thoigiansinhsong)
+      .input("input_nguoiphuthuoc", input.input_nguoiphuthuoc)
+      .input("input_loaihinhsinhsong", input.input_loaihinhsinhsong)
+      .input("input_nguoibaolanh", input.input_nguoibaolanh)
+      .input("input_quanhetindung", input.input_quanhetindung)
+      .query(sqlQueries.broken_by_code);
+    console.log(userList.recordset);
+    return userList.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
 module.exports = {
   login,
   getAllEmployees,
@@ -103,4 +131,5 @@ module.exports = {
   getAllBrokers,
   getCustomerByCode,
   getBrokersByCode,
+  onCalculatePersionPoint
 };
