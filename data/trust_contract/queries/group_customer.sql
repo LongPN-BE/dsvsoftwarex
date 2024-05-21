@@ -1,0 +1,12 @@
+SELECT
+    [ID],
+    [MaNhom],
+    [TenNhom],
+    [TrangThai],
+    [GhiChu],
+    [DaXoa],
+    [NgayXoa],
+    [LyDoXoa],
+    [NguoiXoa]
+FROM
+    [dbo].[NhomKhachHang]

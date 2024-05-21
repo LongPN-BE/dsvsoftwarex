@@ -1,2 +1,23 @@
-select * from Employees;
-select * from View_Xem_Nhan_Vien;
+SELECT 
+      [employees_code]
+      ,[employees_name]
+      ,[document_type]
+      ,[document_number]
+      ,[document_issue_date]
+      ,[email]
+      ,[adress]
+      ,[gender]
+      ,[telephone]
+      ,[date_of_birth]
+      ,[dbo].[EmployeePosioson].[position_code]
+	  ,[dbo].[EmployeePosioson].[position_name]
+	  ,[dbo].[EmployeePosioson].[descriptions]
+      ,[employee_image]
+      ,[is_active]
+      ,[is_working]
+      ,[dbo].[Employees].[is_follow]
+      ,[dbo].[Employees].[create_date]
+      ,[start_work_date]
+      ,[layoff_date]
+  FROM [DSGAppraisalSoftwareX].[dbo].[Employees]
+  INNER JOIN [DSGAppraisalSoftwareX].[dbo].[EmployeePosioson] ON [dbo].[Employees].[position_code] = [dbo].[EmployeePosioson].[position_code];

@@ -10,12 +10,19 @@ const router = express.Router();
 const userControll = require('../controllers/users_controller');
 const { getAllEmployees,
     getAllCustomers,
-    getAllBrokers } = userControll;
+    getAllBrokers,
+    onCalculatePersionPoint,
+    onSaveCalculatePersionPoint,
+    getAllCustomerFull,
+    login } = userControll;
 
-router.post('/auth/login', userControll.login);
+router.post('/auth/login', login);
 
 router.get('/user/employees', getAllEmployees);   // Get all employees from the database and return them as a response to an HTTP request
 router.get('/user/customers', getAllCustomers);
+router.get('/user/customer_full_information', getAllCustomerFull);
+router.post('/user/on_calculate_persion_point', onCalculatePersionPoint);
+router.post('/user/on_save_calculate_persion_point', onSaveCalculatePersionPoint);
 router.get('/user/brokers', getAllBrokers);
 
 //------------ API BRIEF ------------
@@ -25,14 +32,25 @@ const { getBriefPoint,
     getAllAsset,
     getAllAppraisalPlan,
     getAllAppraisalDocumentDetail,
-    getAllAppraisalPlanDetail } = briefControll;
+    getAllAppraisalPlanDetail,
+    SuperDetailByBriefCode,
+    SuperDetailByCustomerCode,
+    getAssetDetail,
+    approvalBrief,
+    disapprovalBrief } = briefControll;
 
 router.get('/brief/briefs_point', getBriefPoint);
 router.get('/brief/briefs', getAllBrief);
+router.get('/brief/super_detail_by_brief_code', SuperDetailByBriefCode);
+router.get('/brief/super_detail_by_customer_code', SuperDetailByCustomerCode);
 router.get('/assets', getAllAsset);
+router.get('/assets/assets_detail', getAssetDetail);
 router.get('/appraisal_plans', getAllAppraisalPlan);
 router.get('/appraisal_plans_detail', getAllAppraisalPlanDetail);
 router.get('/appraisal_documents_detail', getAllAppraisalDocumentDetail);
+
+router.post('/brief/approval', approvalBrief);
+router.post('/brief/dis_approval', disapprovalBrief);
 //------------ API CATEGORIES ------------
 const categorieController = require('../controllers/categories_controller');
 const { getAllAppraisalPlanTypes,
@@ -71,76 +89,30 @@ const {
 router.get('/criteria/internal_credit_criterias', getAllInternalCreditCriteria);
 router.get('/criteria/root_internal_credit_criterias', getAllRootInternalCreditCriteria);
 router.get('/criteria/sub_internal_credit_criterias', getAllSubInternalCreditCriteria);
+
+
 //------------ API File ------------
 const { initializeApp } = require("firebase/app");
-const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
-const multer = require("multer");
-const dotenv = require('dotenv');
-const fileData = require("../data/files");
+const upload = require("../middleware/multer");
+const firebaseConfig = require("../config/firebase.config");
 
-dotenv.config();
-
-const firebaseConfig = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    projectId: process.env.PROJECT_ID,
-    databaseURL: process.env.FIRESTORE_DB_URL,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID,
-    appId: process.env.APP_ID,
-    measurementId: process.env.MEASUREMENT_ID,
-};
 //Initialize a firebase application
 initializeApp(firebaseConfig);
-
-// Initialize Cloud Storage and get a reference to the service
-const storage = getStorage();
-
 // Setting up multer as a middleware to grab photo uploads
-const upload = multer({ storage: multer.memoryStorage() });
+router.post("/files/upload_firebase", upload.single("filename"), fileController.uploadByFireBase);
+router.post("/files/upload_cloundinary", upload.single("filename"), fileController.uploadByCloudinary);
+//--------------------API Trust Contract ------------
+const trustContractController = require('../controllers/trust_contract_controller');
+const { getAllCustomer,
+    getAllLoanAgreement,
+    getAllGroupCustomer,
+    getAllTrustContract
+} = trustContractController;
 
-router.post("/files/upload", upload.single("filename"), async (req, res) => {
-    try {
-        const dateTime = giveCurrentDateTime();
-
-        const storageRef = ref(storage, `files/${req.file.originalname + "       " + dateTime}`);
-
-        // Create file metadata including the content type
-        const metadata = {
-            contentType: req.file.mimetype,
-        };
-
-        // Upload the file in the bucket storage
-        const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
-        //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
-
-        // Grab the public url
-        const downloadURL = await getDownloadURL(snapshot.ref);
-
-        console.log('File successfully uploaded.');
-        await fileData.createFile(req.file.originalname, downloadURL, 1, 1, 1, dateTime);
-        const file = await fileData.getAllFiles();
-        console.log({
-            message: 'file uploaded to firebase storage',
-            name: req.file.originalname,
-            type: req.file.mimetype,
-            downloadURL: downloadURL
-        })
-        console.log(file)
-        return res.status(200).send(file);
-    } catch (error) {
-        return res.status(400).send(error.message)
-    }
-});
-
-const giveCurrentDateTime = () => {
-    const today = new Date();
-    const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    const dateTime = date + ' ' + time;
-    return dateTime;
-}
-
+router.get('/trust_contracts/trust_contracts', getAllTrustContract);
+router.get('/trust_contracts/loan_agreements', getAllLoanAgreement);
+router.get('/trust_contracts/group_customer', getAllGroupCustomer);
+router.get('/trust_contracts/customer', getAllCustomer);
 //-------------------
 module.exports = {
     router: router

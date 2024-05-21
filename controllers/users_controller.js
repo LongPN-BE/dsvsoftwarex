@@ -52,6 +52,20 @@ const getAllCustomers = async (req, res) => {
   }
 };
 
+const getAllCustomerFull = async (req, res) => {
+  try {
+    const customer_code = req.param("customer_code");
+    let data;
+    if (customer_code != undefined)
+      data = await userData.getCustomerFullByCode(customer_code);
+    else data = await userData.getAllCustomerFull();
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
+
 const getAllBrokers = async (req, res) => {
   try {
     const broker_code = req.param("broker_code");
@@ -66,9 +80,96 @@ const getAllBrokers = async (req, res) => {
   }
 };
 
+const onCalculatePersionPoint = async (req, res) => {
+  try {
+    const input = {
+      input_tuoi: req.body.tuoi,
+      input_hocvan: req.body.hoc_van,
+      input_sohuutaisan: req.body.so_huu_tai_san,
+      input_thunhapchinh: req.body.thu_nhap_chinh,
+      input_chitieuhangthang: req.body.chi_tieu_hang_thang,
+      input_nghenghiep: req.body.nghe_nghiep,
+      input_thoigianlamviec: req.body.thoi_gian_lam_viec,
+      input_thunhapnguoidongtrachnhiem: req.body.thu_nhap_nguoi_dong_trach_nhiem,
+      input_thoigiansinhsong: req.body.thoi_gian_sinh_song,
+      input_nguoiphuthuoc: req.body.nguoi_phu_thuoc,
+      input_loaihinhsinhsong: req.body.loai_hinh_sinh_song,
+      input_quanhetindung: req.body.quan_he_tin_dung,
+    };
+    let data;
+    if (input.input_tuoi == undefined ||
+      input.input_hocvan == undefined ||
+      input.input_sohuutaisan == undefined ||
+      input.input_thunhapchinh == undefined ||
+      input.input_chitieuhangthang == undefined ||
+      input.input_nghenghiep == undefined ||
+      input.input_thoigianlamviec == undefined ||
+      input.input_thunhapnguoidongtrachnhiem == undefined ||
+      input.input_nguoiphuthuoc == undefined ||
+      input.input_loaihinhsinhsong == undefined ||
+      input.input_quanhetindung == undefined
+    )
+      data = ({
+        code: -1,
+        message: "Vui lòng hãy nhập ký tự. Không đươc bỏ trống",
+      });
+    else data = await userData.onCalculatePersionPoint(input);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
+
+const onSaveCalculatePersionPoint = async (req, res) => {
+  try {
+    const input = {
+      input_mahoso: req.body.ma_ho_so,
+      input_tuoi: req.body.tuoi,
+      input_hocvan: req.body.hoc_van,
+      input_sohuutaisan: req.body.so_huu_tai_san,
+      input_thunhapchinh: req.body.thu_nhap_chinh,
+      input_chitieuhangthang: req.body.chi_tieu_hang_thang,
+      input_nghenghiep: req.body.nghe_nghiep,
+      input_thoigianlamviec: req.body.thoi_gian_lam_viec,
+      input_thunhapnguoidongtrachnhiem: req.body.thu_nhap_nguoi_dong_trach_nhiem,
+      input_thoigiansinhsong: req.body.thoi_gian_sinh_song,
+      input_nguoiphuthuoc: req.body.nguoi_phu_thuoc,
+      input_loaihinhsinhsong: req.body.loai_hinh_sinh_song,
+      input_quanhetindung: req.body.quan_he_tin_dung,
+    };
+    let data;
+    if (input.input_mahoso == undefined ||
+      input.input_tuoi == undefined ||
+      input.input_hocvan == undefined ||
+      input.input_sohuutaisan == undefined ||
+      input.input_thunhapchinh == undefined ||
+      input.input_chitieuhangthang == undefined ||
+      input.input_nghenghiep == undefined ||
+      input.input_thoigianlamviec == undefined ||
+      input.input_thunhapnguoidongtrachnhiem == undefined ||
+      input.input_nguoiphuthuoc == undefined ||
+      input.input_loaihinhsinhsong == undefined ||
+      input.input_quanhetindung == undefined
+    )
+      data = ({
+        code: -1,
+        message: "Vui lòng hãy nhập ký tự. Không đươc bỏ trống",
+      });
+    else data = await userData.onSaveCalculatePersionPoint(input);
+    res.status(200).json(data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+};
+
 module.exports = {
   login,
   getAllEmployees,
   getAllCustomers,
   getAllBrokers,
+  onCalculatePersionPoint,
+  onSaveCalculatePersionPoint,
+  getAllCustomerFull
 };

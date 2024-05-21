@@ -152,6 +152,159 @@ const getAppraisalDocumentDetailByCode = async (input) => {
   }
 };
 
+const SuperDetailByBriefCode = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.super_detail_by_brief_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const SuperDetailByCustomerCode = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.super_detail_by_customer_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAllSuperDetail = async () => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .query(sqlQueries.all_super_detail);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAllAssetDetail = async () => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .query(sqlQueries.assets_detail);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAllAssetDetailByCustomer = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.assets_detail_by_customer_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAllAssetDetailByType = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.assets_detail_by_type);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAssetDetailByCode = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.assets_detail_by_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getAssetDetailByCustomerXAsset = async (input_customer_code, input_asset_code) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input_asset_code", input_asset_code)
+      .input("input_customer_code", input_customer_code)
+      .query(sqlQueries.asset_detail_by_customer_vs_asset_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+const getAssetDetailByCustomerXAssetType = async (input_customer_code, input_asset_type_code) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input_asset_type_code", input_asset_type_code)
+      .input("input_customer_code", input_customer_code)
+      .query(sqlQueries.asset_detail_by_customer_vs_asset_type_code);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const approvalBrief = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.approval_brief);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const disapprovalBrief = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.disapproval_brief);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
 module.exports = {
   getBriefPoint,
   getAllBrief,
@@ -164,4 +317,15 @@ module.exports = {
   getAppraisalPlanByCode,
   getAppraisalPlanDetailByCode,
   getAppraisalDocumentDetailByCode,
+  SuperDetailByBriefCode,
+  SuperDetailByCustomerCode,
+  getAllSuperDetail,
+  getAllAssetDetail,
+  getAllAssetDetailByType,
+  getAssetDetailByCode,
+  getAllAssetDetailByCustomer,
+  getAssetDetailByCustomerXAsset,
+  getAssetDetailByCustomerXAssetType,
+  approvalBrief,
+  disapprovalBrief
 };

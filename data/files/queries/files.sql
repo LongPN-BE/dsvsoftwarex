@@ -2,9 +2,7 @@ SELECT
     [id],
     [file_name],
     [file_url],
-    [is_single],
-    [is_checked],
-    [is_show],
+    [file_type],
     [date_create]
 FROM
     [DSGAppraisalSoftwareX].[dbo].[fileSample];

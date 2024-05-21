@@ -1592,6 +1592,7 @@ CREATE TABLE fileSample(
 	is_single bit not null default 1,
 	is_checked bit not null default 1,
 	is_show bit not null default 1,
-	date_create DATETIME not null
+	date_create DATETIME not null,
+	file_type nvarchar(255) not null
 );
 

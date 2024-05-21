@@ -1,0 +1,23 @@
+SELECT
+    [ID],
+    [MaKhachHang],
+    [HoTen],
+    [LoaiGiayTo],
+    [SoGiayTo],
+    [NgayCap],
+    [NoiCap],
+    [DiaChiCuTru],
+    [DiaChiLienLac],
+    [NgaySinh],
+    [GioiTinh],
+    [DienThoai],
+    [Email],
+    [LoaiHinh],
+    [NguoiDaiDienPhapLuat],
+    [NguoiThem],
+    [DaXoa],
+    [NgayXoa],
+    [LyDoXoa],
+    [NguoiXoa]
+FROM
+    [dbo].[KhachHang];

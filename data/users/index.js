@@ -69,6 +69,31 @@ const getCustomerByCode = async (input) => {
   }
 };
 
+const getAllCustomerFull = async () => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("users");
+    const userList = await pool.request().query(sqlQueries.customer_full);
+    return userList.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getCustomerFullByCode = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("users");
+    const userList = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.customer_full_by_code);
+    return userList.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
 const getAllBrokers = async () => {
   try {
     const pool = await sql.connect(config.sql);
@@ -99,8 +124,9 @@ const onCalculatePersionPoint = async (input) => {
   try {
     const pool = await sql.connect(config.sql);
     const sqlQueries = await utils.loadSqlQueries("users");
-    const userList = await pool
+    const data = await pool
       .request()
+      .input("input_tuoi", input.input_tuoi)
       .input("input_hocvan", input.input_hocvan)
       .input("input_sohuutaisan", input.input_sohuutaisan)
       .input("input_thunhapchinh", input.input_thunhapchinh)
@@ -115,9 +141,39 @@ const onCalculatePersionPoint = async (input) => {
       .input("input_loaihinhsinhsong", input.input_loaihinhsinhsong)
       .input("input_nguoibaolanh", input.input_nguoibaolanh)
       .input("input_quanhetindung", input.input_quanhetindung)
-      .query(sqlQueries.broken_by_code);
-    console.log(userList.recordset);
-    return userList.recordset;
+      .query(sqlQueries.calculate_persion_point);
+    console.log(data.recordset);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const onSaveCalculatePersionPoint = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("users");
+    const data = await pool
+      .request()
+      .input("input_mahoso", input.input_mahoso)
+      .input("input_tuoi", input.input_tuoi)
+      .input("input_hocvan", input.input_hocvan)
+      .input("input_sohuutaisan", input.input_sohuutaisan)
+      .input("input_thunhapchinh", input.input_thunhapchinh)
+      .input("input_chitieuhangthang", input.input_chitieuhangthang)
+      .input("input_nghenghiep", input.input_nghenghiep)
+      .input("input_thoigianlamviec", input.input_thoigianlamviec)
+      .input("input_thunhapkhac", input.input_thunhapkhac)
+      .input("input_thunhapnguoidongtrachnhiem", input.input_thunhapnguoidongtrachnhiem)
+      .input("input_lienketxahoi", input.input_lienketxahoi)
+      .input("input_thoigiansinhsong", input.input_thoigiansinhsong)
+      .input("input_nguoiphuthuoc", input.input_nguoiphuthuoc)
+      .input("input_loaihinhsinhsong", input.input_loaihinhsinhsong)
+      .input("input_nguoibaolanh", input.input_nguoibaolanh)
+      .input("input_quanhetindung", input.input_quanhetindung)
+      .query(sqlQueries.save_persion_point);
+    console.log(data.recordset);
+    return data.recordset;
   } catch (err) {
     console.log("Error: ", err);
   }
@@ -131,5 +187,8 @@ module.exports = {
   getAllBrokers,
   getCustomerByCode,
   getBrokersByCode,
-  onCalculatePersionPoint
+  onCalculatePersionPoint,
+  onSaveCalculatePersionPoint,
+  getAllCustomerFull,
+  getCustomerFullByCode
 };

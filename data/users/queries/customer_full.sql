@@ -1,0 +1,27 @@
+SELECT
+    [ID],
+    [customer_code],
+    [customer_name],
+    [descriptions],
+    [email],
+    [tax_code],
+    [adress],
+    [vocative],
+    [personal_documents_type],
+    [personal_document_number],
+    [personal_document_issue_date],
+    [gender],
+    [telephone],
+    [date_of_birth],
+    [fax],
+    [website],
+    [customer_type],
+    [is_organize],
+    [contact_person],
+    [contact_person_telephone],
+    [is_working],
+    [is_follow],
+    [create_date],
+    [employee_added]
+FROM
+    [DSGAppraisalSoftwareX].[dbo].[Customer];

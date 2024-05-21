@@ -3,7 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "DSV Software API",
-    "description": "How does human communication happen? People can express thoughts, needs, and ideas through language (written and spoken), gestures, or facial expressions, right? At the same time, our interaction with computers, apps, and websites requires user interface (UI) components – a screen with a menu and graphical elements, a keyboard, and a mouse. Software or its elements, on the other hand, don’t need a graphical user interface to talk to each other. To communicate and exchange data and functionalities, programs use machine-readable interfaces called APIs. If you ever read tech magazines or blogs, you’ve probably seen the abbreviation API. It sounds solid, but what does it stand for? API stands for Application Programming Interface. This post will explain what APIs are, how they work, and why you should care about them in the first place."
+    "description": "Welcome to the DSV Software API documentation! This documentation is built with Swagger to provide a clear, visual, and detailed overview of our API endpoints, making it easy for you to integrate and utilize our services. Here are some key highlights of this documentation:\n\n\\- *Security*: Our API employs advanced security methods to protect your data and ensure that only authorized users can access it. Detailed information on authentication mechanisms, including OAuth 2.0 and API tokens, is provided so you can implement securely.\n\\- *Visual Information*: Swagger's user-friendly interface allows you to easily explore endpoints, view request and response samples, and test directly from your browser without writing code. This saves time and enhances efficiency during development and testing.\n\\- *Clear Data*: All information about the endpoints, including required parameters, response fields, and HTTP status codes, is presented clearly and in detail. You will find specific examples and detailed descriptions to fully understand how each API works.\n\nWe hope this documentation serves as a valuable resource to help you maximize the potential of the DSV Software API. If you have any questions or need further assistance, please do not hesitate to contact our support team."
   },
   "host": "dsvdemo.onrender.com/api",
   "basePath": "/",
@@ -17,6 +17,11 @@
   "produces": [
     "application/json"
   ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey"
+    }
+  },
   "server": [
     {
       "url": "https://dsvdemo.onrender.com/api",
@@ -59,9 +64,172 @@
     {
       "name": "Criteria",
       "description": "Các thông tin tiêu chí tín dụng."
+    },
+    {
+      "name": "Approve",
+      "description": "Xét duyệt các hồ sơ."
+    },
+    {
+      "name": "Trust Contract",
+      "description": "Xét duyệt các hồ sơ."
     }
   ],
   "paths": {
+    "/trust_contracts/trust_contracts": {
+      "get": {
+        "tags": [
+          "Trust Contract"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:trust_contracts"
+          ]
+        }
+      }
+    },
+    "/trust_contracts/loan_agreements": {
+      "get": {
+        "tags": [
+          "Trust Contract"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:loan_agreements"
+          ]
+        }
+      }
+    },
+    "/trust_contracts/customer": {
+      "get": {
+        "tags": [
+          "Trust Contract"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:trust_contracts/customer"
+          ]
+        }
+      }
+    },
+    "/trust_contracts/group_customer": {
+      "get": {
+        "tags": [
+          "Trust Contract"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:trust_contracts/group_customer"
+          ]
+        }
+      }
+    },
+    "/brief/approval": {
+      "post": {
+        "tags": [
+          "Approve"
+        ],
+        "summary": "Xét duyệt hồ sơ",
+        "description": "Xét duyệt hồ sơ hiện có tại hệ thống",
+        "parameters": [
+          {
+            "name": "ma_ho_so",
+            "in": "query",
+            "description": "Mã chi tiết của hồ sơ.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:/brief/approval"
+          ]
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "tags": [
@@ -90,6 +258,107 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "security": {
+          "bearerAuth": [
+            "read:auth/login",
+            "write:auth/login"
+          ]
+        }
+      }
+    },
+    "/user/on_calculate_persion_point": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Tính điểm.",
+        "description": "Tính điểm dựa trên các tiêu chí hiện tại được đề ra sẵn.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nhập đầy đủ đừng có bỏ xót, nên dùng theo chức năng của giao diện.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CalculatePersionPoint"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/on_save_calculate_persion_point": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Lưu dữ liệu tính điểm.",
+        "description": "Tính điểm dựa trên các tiêu chí hiện tại được đề ra sẵn và lưu trữ lại.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Nhập đầy đủ đừng có bỏ xót, nên dùng theo chức năng của giao diện.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SaveCalculatePersionPoint"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -131,6 +400,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -171,18 +449,27 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
       }
     },
-    "/files/upload": {
+    "/files/upload_firebase": {
       "post": {
         "tags": [
           "File"
         ],
-        "summary": "Thêm mới tệp tài liệu",
+        "summary": "Thêm mới tệp tài liệu bằng FireBase",
         "description": "Thêm mới tệp tài liệu tại hệ thống .",
         "consumes": [
           "multipart/form-data"
@@ -198,6 +485,52 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/files/upload_cloundinary": {
+      "post": {
+        "tags": [
+          "File"
+        ],
+        "summary": "Thêm mới tệp tài liệu bằng Cloudinary",
+        "description": "Thêm mới tệp tài liệu tại hệ thống .",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "formData",
+            "description": "File.",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -238,6 +571,63 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/customer_full_information": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Danh sách khách hàng chi tiết",
+        "description": "Xem danh sách khách hàng có tại hệ thống có thể dùng cho chức năng tìm theo mã khách hàng.",
+        "parameters": [
+          {
+            "name": "customer_code",
+            "in": "query",
+            "description": "Mã của khách hàng, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -276,6 +666,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -316,6 +715,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -348,6 +756,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -388,6 +805,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -404,6 +830,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -444,6 +879,111 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/brief/super_detail_by_brief_code": {
+      "get": {
+        "tags": [
+          "Brief"
+        ],
+        "summary": "Danh sách hồ sơ",
+        "description": "Xem danh sách hồ sơ có tại hệ thống có thể dùng cho chức năng tìm theo mã hồ sơ.",
+        "parameters": [
+          {
+            "name": "brief_code",
+            "in": "query",
+            "description": "Mã của hồ sơ, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/brief/super_detail_by_customer_code": {
+      "get": {
+        "tags": [
+          "Brief"
+        ],
+        "summary": "Danh sách hồ sơ",
+        "description": "Xem danh sách hồ sơ có tại hệ thống có thể dùng cho chức năng tìm theo mã khách hàng.",
+        "parameters": [
+          {
+            "name": "customer_code",
+            "in": "query",
+            "description": "Mã của khách hàng, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -482,6 +1022,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -522,6 +1071,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -560,6 +1118,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -600,6 +1167,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -638,6 +1214,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -678,6 +1263,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -716,6 +1310,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -756,6 +1359,75 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/assets/assets_detail": {
+      "get": {
+        "tags": [
+          "Asset"
+        ],
+        "summary": "Danh sách các loại tài sản mà chi tiết hơn chút",
+        "description": "Xem danh sách các loại tài sản có tại hệ thống có thể dùng cho chức năng tìm theo mã các loại tài sản.",
+        "parameters": [
+          {
+            "name": "asset_type_code",
+            "in": "query",
+            "description": "Mã của loại tài sản, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "asset_code",
+            "in": "query",
+            "description": "Mã của tài sản, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "customer_code",
+            "in": "query",
+            "description": "Mã của khách hàng, có thể bỏ trống sẽ là lấy tất cả.",
+            "type": "string"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Số trang để phân trang. Nếu không được cung cấp, giá trị mặc định và số trang bắt đầu từ 1.",
+            "default": 1,
+            "type": "integer"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Kích thước của một trang. Nếu không được cung cấp, giá trị mặc định là  20.",
+            "default": 20,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -794,6 +1466,15 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -834,6 +1515,15 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -869,6 +1559,91 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "CalculatePersionPoint": {
+      "type": "object",
+      "properties": {
+        "tuoi": {
+          "type": "string"
+        },
+        "hoc_van": {
+          "type": "string"
+        },
+        "so_huu_tai_san": {
+          "type": "string"
+        },
+        "thu_nhap_chinh": {
+          "type": "string"
+        },
+        "chi_tieu_hang_thang": {
+          "type": "string"
+        },
+        "nghe_nghiep": {
+          "type": "string"
+        },
+        "thoi_gian_lam_viec": {
+          "type": "string"
+        },
+        "thu_nhap_nguoi_dong_trach_nhiem": {
+          "type": "string"
+        },
+        "thoi_gian_sinh_song": {
+          "type": "string"
+        },
+        "nguoi_phu_thuoc": {
+          "type": "string"
+        },
+        "loai_hinh_sinh_song": {
+          "type": "string"
+        },
+        "quan_he_tin_dung": {
+          "type": "string"
+        }
+      }
+    },
+    "SaveCalculatePersionPoint": {
+      "type": "object",
+      "properties": {
+        "ma_ho_so": {
+          "type": "string"
+        },
+        "tuoi": {
+          "type": "string"
+        },
+        "hoc_van": {
+          "type": "string"
+        },
+        "so_huu_tai_san": {
+          "type": "string"
+        },
+        "thu_nhap_chinh": {
+          "type": "string"
+        },
+        "chi_tieu_hang_thang": {
+          "type": "string"
+        },
+        "nghe_nghiep": {
+          "type": "string"
+        },
+        "thoi_gian_lam_viec": {
+          "type": "string"
+        },
+        "thu_nhap_nguoi_dong_trach_nhiem": {
+          "type": "string"
+        },
+        "thoi_gian_sinh_song": {
+          "type": "string"
+        },
+        "nguoi_phu_thuoc": {
+          "type": "string"
+        },
+        "loai_hinh_sinh_song": {
+          "type": "string"
+        },
+        "quan_he_tin_dung": {
           "type": "string"
         }
       }
