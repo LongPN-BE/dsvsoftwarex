@@ -285,7 +285,7 @@ const approvalBrief = async (input) => {
       .request()
       .input("input", input)
       .query(sqlQueries.approval_brief);
-    return data.recordset;
+    return data.recordsets;
   } catch (err) {
     console.log("Error: ", err);
   }
@@ -299,6 +299,20 @@ const disapprovalBrief = async (input) => {
       .request()
       .input("input", input)
       .query(sqlQueries.disapproval_brief);
+    return data.recordset;
+  } catch (err) {
+    console.log("Error: ", err);
+  }
+};
+
+const getIs_Approval = async (input) => {
+  try {
+    const pool = await sql.connect(config.sql);
+    const sqlQueries = await utils.loadSqlQueries("briefs");
+    const data = await pool
+      .request()
+      .input("input", input)
+      .query(sqlQueries.is_approval);
     return data.recordset;
   } catch (err) {
     console.log("Error: ", err);
@@ -327,5 +341,6 @@ module.exports = {
   getAssetDetailByCustomerXAsset,
   getAssetDetailByCustomerXAssetType,
   approvalBrief,
-  disapprovalBrief
+  disapprovalBrief,
+  getIs_Approval
 };

@@ -5,7 +5,7 @@
     "title": "DSV Software API",
     "description": "Welcome to the DSV Software API documentation! This documentation is built with Swagger to provide a clear, visual, and detailed overview of our API endpoints, making it easy for you to integrate and utilize our services. Here are some key highlights of this documentation:\n\n\\- *Security*: Our API employs advanced security methods to protect your data and ensure that only authorized users can access it. Detailed information on authentication mechanisms, including OAuth 2.0 and API tokens, is provided so you can implement securely.\n\\- *Visual Information*: Swagger's user-friendly interface allows you to easily explore endpoints, view request and response samples, and test directly from your browser without writing code. This saves time and enhances efficiency during development and testing.\n\\- *Clear Data*: All information about the endpoints, including required parameters, response fields, and HTTP status codes, is presented clearly and in detail. You will find specific examples and detailed descriptions to fully understand how each API works.\n\nWe hope this documentation serves as a valuable resource to help you maximize the potential of the DSV Software API. If you have any questions or need further assistance, please do not hesitate to contact our support team."
   },
-  "host": "dsvdemo.onrender.com/api",
+  "host": "localhost:8081/api",
   "basePath": "/",
   "schemes": [
     "http",
@@ -24,7 +24,7 @@
   },
   "server": [
     {
-      "url": "https://dsvdemo.onrender.com/api",
+      "url": "https://dsvsoftwarex.onrender.com/api",
       "description": "Server for development environment"
     },
     {

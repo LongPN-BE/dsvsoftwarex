@@ -175,24 +175,26 @@ const approvalBrief = async (req, res) => {
     const brief_code = req.param("ma_ho_so");
     let data;
     if (brief_code != undefined) {
-      let result = await briefData.approvalBrief(
+      let check = await briefData.getIs_Approval(
         brief_code
       );
-      if (result) {
-        data = await briefData.SuperDetailByBriefCode(
-          brief_code
-        );
-      } else {
+      if (check === true) {
         data = ({
           code: -1,
           message: "Không thể xét duyệt đối với mã hồ sơ này.",
         });
+      } else {
+        await briefData.approvalBrief(brief_code)
+        data = await briefData.SuperDetailByBriefCode(
+          brief_code
+        );
+        data = {
+          ...data,
+          code: 1,
+          message: "Xét duyệt thành công",
+        }
       }
     }
-    else data = ({
-      code: -1,
-      message: "Vui lòng hãy nhập ký tự. Không đươc bỏ trống",
-    });
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
@@ -203,26 +205,29 @@ const approvalBrief = async (req, res) => {
 const disapprovalBrief = async (req, res) => {
   try {
     const brief_code = req.param("ma_ho_so");
+
     let data;
     if (brief_code != undefined) {
-      let result = await briefData.disapprovalBrief(
+      let check = await briefData.getIs_Approval(
         brief_code
       );
-      if (result) {
+      if (check === false) {
+        data = ({
+          code: -1,
+          message: "Không thể hủy xét duyệt đối với mã hồ sơ này.",
+        });
+      } else {
+        await briefData.disapprovalBrief(brief_code)
         data = await briefData.SuperDetailByBriefCode(
           brief_code
         );
-      } else {
-        data = ({
-          code: -1,
-          message: "Không thể xét duyệt đối với mã hồ sơ này.",
-        });
+        data = {
+          ...data,
+          code: 1,
+          message: "Hủy xét duyệt thành công",
+        }
       }
     }
-    else data = ({
-      code: -1,
-      message: "Vui lòng hãy nhập ký tự. Không đươc bỏ trống",
-    });
     res.status(200).json(data);
   } catch (err) {
     console.log(err);
